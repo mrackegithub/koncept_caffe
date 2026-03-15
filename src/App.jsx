@@ -708,7 +708,7 @@ function ConceptSection({ carIdx, setCarIdx }) {
                 {CAROUSEL_ITEMS.map((item, i) => (
                   <div key={i} style={{
                     flex: "0 0 100%", height: 280,
-                    background: `url(${item.img}) center/cover no-repeat`, position: "relative", overflow: "hidden",
+                    background: `url(${item.photo}) center/cover no-repeat`, position: "relative", overflow: "hidden",
                     display: "flex", alignItems: "flex-end", padding: "18px 22px",
                   }}>
                     <div style={{
