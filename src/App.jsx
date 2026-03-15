@@ -68,22 +68,78 @@ function useInView(threshold = 0.12) {
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Hanken+Grotesk:wght@400;500;600&family=DM+Mono:wght@400&display=swap');
 
+/* ═══════════════════════════════════════════
+   LIGHT MODE  (default)
+   Light sections:  warm parchment #E8E1D4
+   Dark sections:   warm tan       #CEC4B0
+   ═══════════════════════════════════════════ */
 :root {
-  --p:     #E8E1D4;
-  --p2:    #DDD5C6;
-  --p3:    #CFC6B5;
-  --ink:   #1B1712;
-  --ink2:  #26211A;
-  --ink3:  #342C22;
-  --acc:   #C45132;
-  --lt:    #E8E1D4;
-  --ltm:   rgba(232,225,212,0.55);
-  --ltd:   rgba(232,225,212,0.28);
-  --bdr-l: rgba(27,23,18,0.12);
-  --bdr-d: rgba(232,225,212,0.12);
-  --sol-l: #C5BDB0;
-  --sol-d: rgba(232,225,212,0.22);
+  --p:      #E8E1D4;   /* light section bg */
+  --p2:     #DDD5C6;
+  --p3:     #CFC6B5;
+  --ink:    #1B1712;   /* text on light sections */
+  --acc:    #C45132;
+  --focus:  #C45132;
+  /* light section text tokens */
+  --tm:     rgba(27,23,18,0.5);
+  --td:     rgba(27,23,18,0.38);
+  --tb:     rgba(27,23,18,0.62);
+  --bdr-l:  rgba(27,23,18,0.12);
+  --sol-l:  #C5BDB0;
+  /* ── alt/dark section (Menu, Footer, Modal) ── */
+  --bg-dark: #CEC4B0;  /* warm tan — clearly light, distinct from parchment */
+  --lt:      #1B1712;  /* text ON dark sections in light mode = dark ink */
+  --ltm:     rgba(27,23,18,0.58);
+  --ltd:     rgba(27,23,18,0.36);
+  --bdr-d:   rgba(27,23,18,0.1);
+  --sol-d:   rgba(27,23,18,0.16);
 }
+
+/* ═══════════════════════════════════════════
+   DARK MODE
+   Light sections:  deep ink  #1C1812
+   Dark sections:   near-black #0F0D0A
+   ═══════════════════════════════════════════ */
+[data-dark="true"] {
+  --p:      #1C1812;
+  --p2:     #141108;
+  --p3:     #0F0D0A;
+  --ink:    #EDE6D8;
+  --tm:     rgba(237,230,216,0.5);
+  --td:     rgba(237,230,216,0.36);
+  --tb:     rgba(237,230,216,0.65);
+  --bdr-l:  rgba(237,230,216,0.1);
+  --sol-l:  rgba(237,230,216,0.2);
+  /* ── alt/dark sections in dark mode ── */
+  --bg-dark: #0F0D0A;
+  --lt:      #E8E1D4;
+  --ltm:     rgba(232,225,212,0.55);
+  --ltd:     rgba(232,225,212,0.28);
+  --bdr-d:   rgba(232,225,212,0.11);
+  --sol-d:   rgba(232,225,212,0.2);
+}
+[data-dark="true"] body  { background:var(--p); color:var(--ink); }
+[data-dark="true"] .hdr  { background:var(--p); border-bottom-color:rgba(237,230,216,0.16); }
+[data-dark="true"] .cta-l { border-color:var(--ink); color:var(--ink); }
+[data-dark="true"] .cta-l::before { background:var(--ink); }
+[data-dark="true"] .cta-l:hover { color:var(--p); }
+
+/* ── Focus styles (accessibility) ── */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+button:focus-visible, a:focus-visible { border-radius: 2px; }
+
+/* ── Skip link ── */
+.skip-link {
+  position:fixed; top:-100%; left:16px; z-index:9000;
+  background:var(--acc); color:#fff;
+  font-family:'Hanken Grotesk',sans-serif; font-size:13px; font-weight:600;
+  padding:10px 20px; text-decoration:none; letter-spacing:0.05em;
+  transition:top 200ms ease;
+}
+.skip-link:focus { top:8px; }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:var(--p);color:var(--ink);font-family:'Hanken Grotesk',sans-serif;overflow-x:hidden;}
@@ -129,7 +185,7 @@ body{background:var(--p);color:var(--ink);font-family:'Hanken Grotesk',sans-seri
 .nav-lnk{
   font-family:'Hanken Grotesk',sans-serif;font-size:12px;font-weight:500;
   letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;
-  color:rgba(27,23,18,0.5);transition:color 180ms ease;
+  color:var(--tm);transition:color 180ms ease;
 }
 .nav-lnk:hover{color:var(--ink);}
 
@@ -227,7 +283,7 @@ body{background:var(--p);color:var(--ink);font-family:'Hanken Grotesk',sans-seri
 /* ── Map ── */
 .map-wrap{position:relative;width:100%;height:340px;overflow:hidden;}
 .map-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:sepia(0.15) contrast(1.06);}
-.map-frame{position:absolute;inset:0;pointer-events:none;border:1.5px solid var(--ink);}
+.map-frame{position:absolute;inset:0;pointer-events:none;border:1.5px solid var(--lt);}
 
 /* ── Parallax strip ── */
 .parallax-strip{position:relative;height:clamp(340px,55vw,680px);overflow:hidden;}
@@ -278,7 +334,7 @@ body{background:var(--p);color:var(--ink);font-family:'Hanken Grotesk',sans-seri
 .modal-panel{
   width:clamp(300px,90vw,860px);
   display:grid;grid-template-columns:1fr 1fr;
-  background:var(--ink);
+  background:var(--bg-dark);
   transform:translateX(100%);
   transition:transform 420ms cubic-bezier(0.76,0,0.24,1);
   overflow:hidden;
@@ -300,13 +356,13 @@ body{background:var(--p);color:var(--ink);font-family:'Hanken Grotesk',sans-seri
 }
 .modal-close{
   position:absolute;top:16px;right:16px;z-index:10;
-  background:rgba(27,23,18,0.6);border:1px solid var(--bdr-d);
+  background:var(--bdr-d);border:1px solid var(--bdr-d);
   color:var(--lt);cursor:pointer;width:36px;height:36px;
   display:flex;align-items:center;justify-content:center;
   font-size:14px;font-family:inherit;
   transition:background 180ms ease;
 }
-.modal-close:hover{background:var(--ink);}
+.modal-close:hover{background:var(--sol-d);}
 
 /* ── Responsive ── */
 @media(min-width:960px){.mob-only{display:none!important;}.desk-nav{display:flex!important;}}
@@ -349,7 +405,8 @@ function PhotoModal({ item, onClose }) {
       className={`modal-backdrop ${isOpen ? "open" : ""}`}
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="modal-panel" role="dialog" aria-modal="true">
+      <div className="modal-panel" role="dialog" aria-modal="true"
+        aria-label={item ? `${item.name} details` : "Menu item"}>
         {/* Photo side */}
         <div className="modal-photo">
           {item && (
@@ -406,18 +463,23 @@ function PhotoModal({ item, onClose }) {
 
 // ─── Header ──────────────────────────────────────────────────────────────────
 
-function Header({ on, menuOpen, setMenuOpen }) {
+function Header({ on, menuOpen, setMenuOpen, dark, setDark }) {
   const scrollTo = (id) =>
     document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <>
-      <header className={`hdr ${on}`}>
-        <div className="fc" style={{ fontSize: 22, fontWeight: 900, letterSpacing: "0.05em", userSelect: "none" }}>
-          SILT<span style={{ color: "var(--acc)", marginLeft: 1 }}>.</span>
+      {/* Skip to main content — screen reader / keyboard shortcut */}
+      <a className="skip-link" href="#main-content">Skip to content</a>
+
+      <header className={`hdr ${on}`} role="banner">
+        <div className="fc" style={{ fontSize: 22, fontWeight: 900, letterSpacing: "0.05em", userSelect: "none" }}
+          aria-label="Silt Coffee home">
+          SILT<span style={{ color: "var(--acc)", marginLeft: 1 }} aria-hidden="true">.</span>
         </div>
 
-        <nav className="desk-nav" style={{ display: "flex", alignItems: "center", gap: 40 }}>
+        <nav className="desk-nav" style={{ display: "flex", alignItems: "center", gap: 40 }}
+          aria-label="Main navigation">
           {NAV_LINKS.map(({ label, href }) => (
             <a key={label} href={href} className="nav-lnk"
               onClick={e => { e.preventDefault(); scrollTo(href); }}>
@@ -426,25 +488,51 @@ function Header({ on, menuOpen, setMenuOpen }) {
           ))}
         </nav>
 
-        <button className="mob-only"
-          onClick={() => setMenuOpen(v => !v)}
-          style={{ background: "none", border: "none", cursor: "pointer",
-            display: "flex", flexDirection: "column", gap: 5, padding: 4 }}>
-          <span className={`hbr t ${menuOpen ? "open" : ""}`} />
-          <span className={`hbr m ${menuOpen ? "open" : ""}`} />
-          <span className={`hbr b ${menuOpen ? "open" : ""}`} />
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* Dark mode toggle */}
+          <button
+            onClick={() => setDark(v => !v)}
+            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+            aria-pressed={dark}
+            style={{
+              background: "none", border: "1px solid var(--bdr-l)", cursor: "pointer",
+              width: 34, height: 34, borderRadius: 2,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 15, color: "var(--ink)", transition: "background 180ms, border-color 180ms",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = "var(--bdr-l)")}
+            onMouseLeave={e => (e.currentTarget.style.background = "none")}>
+            <span aria-hidden="true">{dark ? "☀" : "☾"}</span>
+          </button>
+
+          {/* Hamburger — mobile only */}
+          <button className="mob-only"
+            onClick={() => setMenuOpen(v => !v)}
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            style={{ background: "none", border: "none", cursor: "pointer",
+              display: "flex", flexDirection: "column", gap: 5, padding: 4 }}>
+            <span className={`hbr t ${menuOpen ? "open" : ""}`} aria-hidden="true" />
+            <span className={`hbr m ${menuOpen ? "open" : ""}`} aria-hidden="true" />
+            <span className={`hbr b ${menuOpen ? "open" : ""}`} aria-hidden="true" />
+          </button>
+        </div>
       </header>
 
-      <div className={`ov ${menuOpen ? "open" : ""}`}>
+      {/* Mobile overlay */}
+      <div id="mobile-nav" className={`ov ${menuOpen ? "open" : ""}`}
+        role="dialog" aria-modal="true" aria-label="Navigation menu"
+        aria-hidden={!menuOpen}>
         <button onClick={() => setMenuOpen(false)}
+          aria-label="Close navigation menu"
           style={{ position: "absolute", top: 16, right: "clamp(20px,5vw,64px)",
             background: "none", border: "1px solid var(--sol-d)", cursor: "pointer",
             width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center",
             color: "var(--lt)", fontSize: 14, fontFamily: "inherit" }}>
-          ✕
+          <span aria-hidden="true">✕</span>
         </button>
-        <nav>
+        <nav aria-label="Mobile navigation">
           {NAV_LINKS.map(({ label, href }) => (
             <a key={label} href={href} className="ov-lnk"
               onClick={e => { e.preventDefault(); setMenuOpen(false); scrollTo(href); }}>
@@ -473,7 +561,7 @@ function Hero({ on }) {
         <div style={{ padding: "clamp(40px,7vw,96px) clamp(20px,6vw,80px)", paddingBottom: "clamp(80px,10vw,120px)" }}>
           <div className={`h-rise d1 ${on}`}
             style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: "clamp(32px,5vw,56px)" }}>
-            <span className="fm" style={{ fontSize: 10, letterSpacing: "0.22em", color: "rgba(27,23,18,0.38)", whiteSpace: "nowrap" }}>
+            <span className="fm" style={{ fontSize: 10, letterSpacing: "0.22em", color: "var(--td)", whiteSpace: "nowrap" }}>
               00 — SILT COFFEE BERLIN
             </span>
             <div style={{ flex: 1, height: 1, background: "var(--bdr-l)" }} />
@@ -491,7 +579,7 @@ function Hero({ on }) {
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end",
             gap: "clamp(24px,4vw,56px)", maxWidth: 720 }}>
             <p className={`fg h-rise d2 ${on}`}
-              style={{ color: "rgba(27,23,18,0.6)", fontSize: 16, lineHeight: 1.75,
+              style={{ color: "var(--tb)", fontSize: 16, lineHeight: 1.75,
                 maxWidth: 340, flex: "1 1 220px" }}>
               Single-origin. Small-batch roasted in-house.
               Obsessively sourced from farms we actually visit.
@@ -509,8 +597,8 @@ function Hero({ on }) {
           display: "flex", justifyContent: "space-between", alignItems: "center",
           padding: "14px clamp(20px,6vw,80px)",
         }}>
-          <span className="fm" style={{ fontSize: 10, letterSpacing: "0.15em", color: "rgba(27,23,18,0.38)" }}>EST. 2019</span>
-          <span className="fm" style={{ fontSize: 10, letterSpacing: "0.15em", color: "rgba(27,23,18,0.38)" }}>WESERSTRASSE 40, BERLIN</span>
+          <span className="fm" style={{ fontSize: 10, letterSpacing: "0.15em", color: "var(--td)" }}>EST. 2019</span>
+          <span className="fm" style={{ fontSize: 10, letterSpacing: "0.15em", color: "var(--td)" }}>WESERSTRASSE 40, BERLIN</span>
         </div>
       </div>
     </section>
@@ -582,8 +670,8 @@ function ConceptSection({ carIdx, setCarIdx }) {
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "17px clamp(20px,6vw,80px)", borderBottom: "1px solid var(--bdr-l)",
       }}>
-        <span className="fm" style={{ fontSize: 10, letterSpacing: "0.2em", color: "rgba(27,23,18,0.4)" }}>01 — THE CONCEPT</span>
-        <span className="fc" style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", color: "rgba(27,23,18,0.4)" }}>ROASTERY / CAFÉ</span>
+        <span className="fm" style={{ fontSize: 10, letterSpacing: "0.2em", color: "var(--td)" }}>01 — THE CONCEPT</span>
+        <span className="fc" style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", color: "var(--td)" }}>ROASTERY / CAFÉ</span>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))" }}>
@@ -597,12 +685,12 @@ function ConceptSection({ carIdx, setCarIdx }) {
             </h2>
           </div>
           <div className={`rv d1 ${iv}`}>
-            <p className="fg" style={{ color: "rgba(27,23,18,0.6)", fontSize: 15, lineHeight: 1.82, marginBottom: 18 }}>
+            <p className="fg" style={{ color: "var(--tb)", fontSize: 15, lineHeight: 1.82, marginBottom: 18 }}>
               We source directly from three farms across Ethiopia, Colombia, and Kenya.
               Every batch is roasted on-site in our 5kg Loring, dialled to a light-to-medium
               profile that preserves the terroir — not masking it with heat.
             </p>
-            <p className="fg" style={{ color: "rgba(27,23,18,0.6)", fontSize: 15, lineHeight: 1.82 }}>
+            <p className="fg" style={{ color: "var(--tb)", fontSize: 15, lineHeight: 1.82 }}>
               The result is coffee that tastes like somewhere.
               Not a standardised profile — a place, a season, a decision.
             </p>
@@ -647,8 +735,9 @@ function ConceptSection({ carIdx, setCarIdx }) {
               borderTop: "1px solid var(--bdr-l)", paddingTop: 12,
             }}>
               <div style={{ display: "flex" }}>
-                {[{ sym: "←", d: -1 }, { sym: "→", d: 1 }].map(({ sym, d }, di) => (
+                {[{ sym: "←", d: -1, label: "Previous image" }, { sym: "→", d: 1, label: "Next image" }].map(({ sym, d, label }, di) => (
                   <button key={sym}
+                    aria-label={label}
                     onClick={() => setCarIdx(p => (p + d + CAROUSEL_ITEMS.length) % CAROUSEL_ITEMS.length)}
                     style={{
                       background: "none", border: "1px solid var(--sol-l)",
@@ -663,7 +752,7 @@ function ConceptSection({ carIdx, setCarIdx }) {
                   </button>
                 ))}
               </div>
-              <span className="fm" style={{ fontSize: 10, color: "rgba(27,23,18,0.38)", letterSpacing: "0.1em" }}>
+              <span className="fm" style={{ fontSize: 10, color: "var(--td)", letterSpacing: "0.1em" }}>
                 0{carIdx + 1} / 0{CAROUSEL_ITEMS.length}
               </span>
             </div>
@@ -687,10 +776,10 @@ function GallerySection({ onPhotoClick }) {
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "17px clamp(20px,6vw,80px)", borderBottom: "1px solid var(--bdr-l)",
       }}>
-        <span className="fm" style={{ fontSize: 10, letterSpacing: "0.2em", color: "rgba(27,23,18,0.4)" }}>
+        <span className="fm" style={{ fontSize: 10, letterSpacing: "0.2em", color: "var(--td)" }}>
           GALLERY — SPACE &amp; CRAFT
         </span>
-        <span className="fm" style={{ fontSize: 10, letterSpacing: "0.14em", color: "rgba(27,23,18,0.3)" }}>
+        <span className="fm" style={{ fontSize: 10, letterSpacing: "0.14em", color: "var(--td)" }}>
           ← SCROLL →
         </span>
       </div>
@@ -710,7 +799,11 @@ function GallerySection({ onPhotoClick }) {
             <div
               key={i}
               className="gallery-item"
+              role="button"
+              tabIndex={0}
+              aria-label={`View photo: ${item.caption}`}
               onClick={() => onPhotoClick(item)}
+              onKeyDown={e => (e.key === "Enter" || e.key === " ") && onPhotoClick(item)}
               style={{ transitionDelay: `${i * 60}ms` }}
             >
               <img src={item.src} alt={item.caption} className="gallery-img" loading="lazy" />
@@ -805,7 +898,7 @@ function MenuSection({ activeTab, switchTab, tabOut, onItemClick }) {
   const TABS = { espresso: "Espresso", pourover: "Pour Over", pastries: "Pastries" };
 
   return (
-    <section id="menu" ref={ref} style={{ background: "var(--ink)" }}>
+    <section id="menu" ref={ref} style={{ background: "var(--bg-dark)" }}>
       <div style={{ height: "1.5px", background: "var(--acc)" }} />
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -828,14 +921,18 @@ function MenuSection({ activeTab, switchTab, tabOut, onItemClick }) {
       {/* Sticky tab bar */}
       <div style={{
         position: "sticky", top: 56, zIndex: 50,
-        background: "var(--ink)",
+        background: "var(--bg-dark)",
         borderTop: "1px solid var(--bdr-d)", borderBottom: "1px solid var(--bdr-d)",
         overflowX: "auto", marginTop: "clamp(32px,5vw,56px)",
       }}>
-        <div style={{ display: "flex", minWidth: "max-content" }}>
+        <div style={{ display: "flex", minWidth: "max-content" }} role="tablist" aria-label="Menu categories">
           {Object.entries(TABS).map(([id, label]) => (
             <button key={id}
               className={`tab ${activeTab === id ? "on" : ""}`}
+              role="tab"
+              aria-selected={activeTab === id}
+              aria-controls={`tabpanel-${id}`}
+              id={`tab-${id}`}
               onClick={() => switchTab(id)}>
               {label}
             </button>
@@ -845,13 +942,21 @@ function MenuSection({ activeTab, switchTab, tabOut, onItemClick }) {
 
       {/* Items */}
       <div className={`tp ${tabOut ? "out" : ""}`}
+        role="tabpanel"
+        id={`tabpanel-${activeTab}`}
+        aria-labelledby={`tab-${activeTab}`}
+        aria-live="polite"
         style={{ padding: "0 clamp(20px,6vw,80px) clamp(60px,8vw,100px)" }}>
         {MENU[activeTab].map((item, i) => (
           <div
             key={`${activeTab}-${i}`}
             className={`mi ${iv}`}
             style={{ transitionDelay: `${i * 55}ms` }}
+            role="button"
+            tabIndex={0}
+            aria-label={`${item.name} — €${item.price}. ${item.notes}. Press to view photo.`}
             onClick={() => onItemClick({ ...item, tab: activeTab })}
+            onKeyDown={e => (e.key === "Enter" || e.key === " ") && onItemClick({ ...item, tab: activeTab })}
           >
             <div className="mi-inner">
               <div style={{ flex: 1 }}>
@@ -885,7 +990,7 @@ function Footer() {
   const CHARS = "DROP BY.".split("");
 
   return (
-    <footer id="visit" style={{ background: "var(--ink)" }}>
+    <footer id="visit" style={{ background: "var(--bg-dark)" }}>
       <div style={{ height: "1.5px", background: "var(--p3)" }} />
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -916,7 +1021,7 @@ function Footer() {
         <div className="map-frame" style={{ borderColor: "var(--bdr-d)" }} />
         <div style={{
           position: "absolute", bottom: 0, left: 0,
-          background: "var(--ink)", padding: "11px 18px",
+          background: "var(--bg-dark)", padding: "11px 18px",
           borderTop: "1px solid var(--bdr-d)", borderRight: "1px solid var(--bdr-d)",
         }}>
           <span className="fm" style={{ fontSize: 11, letterSpacing: "0.1em", color: "var(--ltm)" }}>
@@ -1013,8 +1118,23 @@ export default function CafeSite() {
   const [activeTab,   setActiveTab]   = useState("espresso");
   const [tabOut,      setTabOut]      = useState(false);
   const [carIdx,      setCarIdx]      = useState(0);
-  const [modalItem,   setModalItem]   = useState(null);   // menu item modal
-  const [galleryItem, setGalleryItem] = useState(null);   // gallery lightbox
+  const [modalItem,   setModalItem]   = useState(null);
+  const [galleryItem, setGalleryItem] = useState(null);
+  const [dark,        setDark]        = useState(
+    () => window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false
+  );
+
+  // Persist dark mode preference
+  useEffect(() => {
+    document.documentElement.setAttribute("data-dark", dark);
+    localStorage.setItem("silt-dark", dark);
+  }, [dark]);
+
+  // Restore preference on load
+  useEffect(() => {
+    const saved = localStorage.getItem("silt-dark");
+    if (saved !== null) setDark(saved === "true");
+  }, []);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 60);
@@ -1033,13 +1153,13 @@ export default function CafeSite() {
   const on = loaded ? "on" : "";
 
   return (
-    <div style={{ background: "var(--p)", color: "var(--ink)", minHeight: "100vh" }}>
+    <div data-dark={dark} style={{ background: "var(--p)", color: "var(--ink)", minHeight: "100vh" }}>
       <StyleInjector />
-      <div className="grain" />
+      <div className="grain" aria-hidden="true" />
 
-      <Header on={on} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <Header on={on} menuOpen={menuOpen} setMenuOpen={setMenuOpen} dark={dark} setDark={setDark} />
 
-      <main>
+      <main id="main-content">
         <Hero on={on} />
         <ParallaxStrip />
         <ConceptSection carIdx={carIdx} setCarIdx={setCarIdx} />
