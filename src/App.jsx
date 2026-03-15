@@ -12,7 +12,7 @@ const MENU = {
   pourover: [
     { name: "V60 Single Origin", price: "6.50", notes: "Ethiopia Yirgacheffe — jasmine, bergamot",     photo: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=1400&q=85" },
     { name: "Chemex Batch",      price: "5.00", notes: "Colombia Huila — brown sugar, red apple",       photo: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=85" },
-    { name: "Aeropress",         price: "5.50", notes: "Rotating seasonal — ask your barista",          photo: "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=1400&q=85" },
+    { name: "Aeropress",         price: "5.50", notes: "Rotating seasonal — ask your barista",          photo: "https://www.yummefy.com/dalgona-coffee-recipe.html" },
     { name: "Kalita Wave",       price: "6.00", notes: "Kenya Kirinyaga — blackcurrant, tomato",        photo: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=1400&q=85" },
   ],
   pastries: [
@@ -24,9 +24,9 @@ const MENU = {
 };
 
 const CAROUSEL_ITEMS = [
-  { label: "01 / The Roaster",  num: "01" },
-  { label: "02 / The Interior", num: "02" },
-  { label: "03 / The Beans",    num: "03" },
+  { label: "01 / The Roaster",  num: "01", photo: "https://weaverscoffee.com/blogs/blog/what-is-hand-roasted-reserve-coffee-1?srsltid=AfmBOopZsSXTD2AwLLc8DQcQhitqDnIs_x0noaiUGUoWarqW3ws8WDcE" },
+  { label: "02 / The Interior", num: "02", photo: "https://cuplacoffee.com/cozy-coffee-shops-near-me-for-studying-working-and-weekend-sips/" },
+  { label: "03 / The Beans",    num: "03", photo: "https://www.nescafe.com/gb/coffee-culture/knowledge/coffee-beans" },
 ];
 
 // Interior + food gallery — shown between Concept and Menu
@@ -708,7 +708,7 @@ function ConceptSection({ carIdx, setCarIdx }) {
                 {CAROUSEL_ITEMS.map((item, i) => (
                   <div key={i} style={{
                     flex: "0 0 100%", height: 280,
-                    background: BKGS[i], position: "relative", overflow: "hidden",
+                    background: `url(${item.img}) center/cover no-repeat`, position: "relative", overflow: "hidden",
                     display: "flex", alignItems: "flex-end", padding: "18px 22px",
                   }}>
                     <div style={{
