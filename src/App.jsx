@@ -24,9 +24,9 @@ const MENU = {
 };
 
 const CAROUSEL_ITEMS = [
-  { label: "01 / The Roaster",  num: "01", photo: "https://weaverscoffee.com/blogs/blog/what-is-hand-roasted-reserve-coffee-1?srsltid=AfmBOopZsSXTD2AwLLc8DQcQhitqDnIs_x0noaiUGUoWarqW3ws8WDcE" },
-  { label: "02 / The Interior", num: "02", photo: "https://cuplacoffee.com/cozy-coffee-shops-near-me-for-studying-working-and-weekend-sips/" },
-  { label: "03 / The Beans",    num: "03", photo: "https://www.nescafe.com/gb/coffee-culture/knowledge/coffee-beans" },
+  { label: "01 / The Roaster",  num: "01", photo: "https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29mZmVlJTIwcm9hc3RlcnxlbnwwfHwwfHx8MA%3D%3D" },
+  { label: "02 / The Interior", num: "02", photo: "https://images.unsplash.com/photo-1682979358243-816a75830f77?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y29mZmVlJTIwaW50ZXJpb3J8ZW58MHx8MHx8fDA%3D" },
+  { label: "03 / The Beans",    num: "03", photo: "https://plus.unsplash.com/premium_photo-1675435644687-562e8042b9db?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y29mZmVlJTIwYmVhbnN8ZW58MHx8MHx8fDA%3D" },
 ];
 
 // Interior + food gallery — shown between Concept and Menu
